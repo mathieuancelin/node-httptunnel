@@ -1,11 +1,19 @@
-# httptunnel
+# node-httptunnel
 
 This is a poc of a httptunnel like tool written in node js. It's a didirectional data stream tunnelled in standard HTTP requests (GET/PUT/POST/DELETE).
 It supports mTLS between client and server or client -> reverse-proxy / reverse-proxy -> server. Useful to use non HTTP protocols (like ssh) through an HTTP reverse proxy (like otoroshi).
 
+## Install dependencies
+
+```sh
+yarn install
+```
+
+## Test it with ssh
+
 For the following example let say we want to tunnel an ssh connection from machine A to machine B using only HTTP.
 
-## On machine A (the client)
+### On machine A (the client)
 
 ```sh
 node src/client.js --remote 'http://xxx.xxx.xxx.xxx:8080' --port 2222
@@ -22,7 +30,7 @@ the client command supports the following options :
 * certPath: path for a client cert file
 * keyPath: path for a client cert key file
 
-## On machine B (the server)
+### On machine B (the server)
 
 ```sh
 node src/client.js --port 8080 --targetPort 22
@@ -41,7 +49,7 @@ the server command supports the following options :
 * requestCert: request client cert
 * rejectUnauthorized: reject non client cert requests
 
-## Then on machine A again (the client)
+### Then on machine A again (the client)
 
 ```sh
 ssh theuser@localhost -p 2222 # we use 2222 that is exposed by client.js
