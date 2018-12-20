@@ -45,4 +45,8 @@ the server command supports the following options :
 
 ```sh
 ssh theuser@localhost -p 2222 # we use 2222 that is exposed by client.js
+
+Password:
+Last login: Thu Dec 20 13:37:00 2018 from 127.0.0.1
+MyAwesomeMachineB:~ theuser$
 ```
