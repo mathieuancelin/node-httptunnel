@@ -3,8 +3,11 @@ const net = require('net');
 const fetch = require('node-fetch');
 const faker = require('faker');
 const https = require('https'); 
+const url = require('url'); 
+const HttpsProxyAgent = require('https-proxy-agent');
 
 const options = require('minimist')(process.argv.slice(2));
+const proxy = process.env.http_proxy || options.proxy;
 const debug = options.debug || false;
 const remoteTunnelServerUrl = options.remote || 'http://127.0.0.1:8080';
 const localProcessAddress = options.address || '127.0.0.1';
@@ -17,7 +20,12 @@ const clientCaPath = options.caPath;
 const clientCertPath = options.certPath;
 const clientKeyPath = options.keyPath;
 
-const agent = (clientCaPath || clientCertPath || clientKeyPath) ? new https.Agent({
+const AgentClass = !!proxy ? HttpsProxyAgent : https.Agent;
+
+const proxyUrl = !!proxy ? url.parse(proxy): {};
+
+const agent = (clientCaPath || clientCertPath || clientKeyPath) ? new AgentClass({
+  ...proxyUrl,
   key: clientKeyPath ? fs.readFileSync(clientKeyPath) : undefined,
   cert: clientCertPath ? fs.readFileSync(clientCertPath) : undefined,
   ca: clientCaPath ? fs.readFileSync(clientCaPath) : undefined,
