@@ -1,7 +1,7 @@
 # httptunnel
 
-This is a poc of a httptunnel like tool written in node js. It can wrap any tcp protocol inside regular http GET / POST / PUT / DELETE calls.
-Works with mTLS between client and server. Useful to use non http protocols (like ssh) through an http reverse proxy (like otoroshi).
+This is a poc of a httptunnel like tool written in node js. It's a didirectional data stream tunnelled in standard HTTP requests (GET/PUT/POST/DELETE).
+It supports mTLS between client and server or client -> reverse-proxy / reverse-proxy -> server. Useful to use non HTTP protocols (like ssh) through an HTTP reverse proxy (like otoroshi).
 
 For the following example let say we want to tunnel an ssh connection from machine A to machine B using only HTTP.
 
