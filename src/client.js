@@ -15,6 +15,7 @@ const localProcessPort = options.port || 2222;
 const retries = options.retries || 3;
 const targetHost = options.targetHost || undefined;
 const targetPort = options.targetPort || undefined;
+const cookie = options.cookie || undefined;
 
 const clientCaPath = options.caPath;
 const clientCertPath = options.certPath;
@@ -49,6 +50,7 @@ function sendToServer(sessionId, data) {
       'Content-Type': 'application/json',
       'Target-Host': targetHost,
       'Target-Port': targetPort,
+      'Cookie': cookie
     },
     body: JSON.stringify(payload)
   });
@@ -62,6 +64,7 @@ function readFromServer(sessionId) {
       'Accept': 'application/json',
       'Target-Host': targetHost,
       'Target-Port': targetPort,
+      'Cookie': cookie
     },
   }).then(r => r.json()).then(r => {
     if (r.data && r.data !== '') {
@@ -88,6 +91,7 @@ function createSession(sessionId) {
       'Accept': 'application/json',
       'Target-Host': targetHost,
       'Target-Port': targetPort,
+      'Cookie': cookie
     },
     body: ''
   });
@@ -102,6 +106,7 @@ function destroySession(sessionId) {
       'Accept': 'application/json',
       'Target-Host': targetHost,
       'Target-Port': targetPort,
+      'Cookie': cookie
     }
   });
 }
