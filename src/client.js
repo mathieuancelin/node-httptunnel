@@ -39,6 +39,16 @@ function debugLog(...args) {
   }
 }
 
+function handleHttpErrors(response, sessionId) {
+  if (response.status === 404) {
+    destroySession(sessionId);
+    delete sessions[sessionId];
+    return null;
+  } else {
+    return response;
+  }
+}
+
 function sendToServer(sessionId, data) {
   const payload = data.toString('base64');
   debugLog(`Write bytes (${payload.length}) from session ${sessionId} on remote server.`)
@@ -51,6 +61,8 @@ function sendToServer(sessionId, data) {
       'Cookie': cookie
     },
     body: payload
+  }).then(resp => {
+    handleHttpErrors(resp, sessionId)
   });
 }
 
@@ -75,7 +87,7 @@ function readFromServer(sessionId) {
     } else {
       return null;
     }
-  })
+  });
 }
 
 function createSession(sessionId) {

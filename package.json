@@ -1,5 +1,5 @@
 {
-  "name": "httptunnel",
+  "name": "node-httptunnel",
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "Apache-2.0",

@@ -114,6 +114,9 @@ function _destroySession(sessionId) {
 
 function writeToSession(req, res) {
   const sessionId = req.params.id;
+  if (!sessions[sessionId]) {
+    return res.status(404).send({ error: `Session '${sessionId}' not found :(` })
+  }
   const data = req.body;
   _sendToSession(sessionId, data);
   res.send({ done: true });
@@ -135,6 +138,10 @@ function readLastResponseFromSession(req, res) {
   
   const sessionId = req.params.id;
   let sent = false;
+
+  if (!sessions[sessionId]) {
+    return res.status(404).send({ error: `Session '${sessionId}' not found :(` })
+  }
 
   function readFromSession() {
     const session = sessions[sessionId];
