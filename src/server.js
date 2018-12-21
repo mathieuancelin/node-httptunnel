@@ -46,9 +46,9 @@ function _createSession(sessionId, req) {
 
   const client = new net.Socket();
 
-  const targetHost = req.get('Target-Host');
-  const targetPort = req.get('Target-Port');
-  if (targetHost && targetPort && targetHost !== 'undefined' && targetPort !== 'undefined') {
+  const targetHostPort = req.get('Target-Host-Port');
+  if (targetHostPort && targetHostPort !== 'undefined') {
+    const [targetHost, targetPort] = targetHostPort.split(':');
     client.connect(parseInt(targetPort, 10), targetHost, () => {
       debugLog('Connected to', targetHost, targetPort);
     });

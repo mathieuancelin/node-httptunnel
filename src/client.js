@@ -13,8 +13,7 @@ const remoteTunnelServerUrl = options.remote || 'http://127.0.0.1:8080';
 const localProcessAddress = options.address || '127.0.0.1';
 const localProcessPort = options.port || 2222;
 const retries = options.retries || 3;
-const targetHost = options.targetHost || undefined;
-const targetPort = options.targetPort || undefined;
+const targetHostPort = options.target || undefined;
 const cookie = options.cookie || undefined;
 
 const clientCaPath = options.caPath;
@@ -48,8 +47,7 @@ function sendToServer(sessionId, data) {
     agent,
     headers: {
       'Content-Type': 'text/plain',
-      'Target-Host': targetHost,
-      'Target-Port': targetPort,
+      'Target-Host-Port': targetHostPort,
       'Cookie': cookie
     },
     body: payload
@@ -62,8 +60,7 @@ function readFromServer(sessionId) {
     agent,
     headers: {
       'Accept': 'application/json',
-      'Target-Host': targetHost,
-      'Target-Port': targetPort,
+      'Target-Host-Port': targetHostPort,
       'Cookie': cookie
     },
   }).then(r => r.text()).then(r => {
@@ -89,8 +86,7 @@ function createSession(sessionId) {
     headers: {
       'Content-Type': 'text/plain',
       'Accept': 'application/json',
-      'Target-Host': targetHost,
-      'Target-Port': targetPort,
+      'Target-Host-Port': targetHostPort,
       'Cookie': cookie
     },
     body: ''
@@ -104,8 +100,7 @@ function destroySession(sessionId) {
     agent,
     headers: {
       'Accept': 'application/json',
-      'Target-Host': targetHost,
-      'Target-Port': targetPort,
+      'Target-Host-Port': targetHostPort,
       'Cookie': cookie
     }
   });
