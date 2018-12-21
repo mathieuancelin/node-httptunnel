@@ -41,18 +41,18 @@ function debugLog(...args) {
 }
 
 function sendToServer(sessionId, data) {
-  const payload = { sessionId, data: data.toString('base64') };
-  debugLog(`Write bytes (${payload.data.length}) from session ${sessionId} on remote server.`)
+  const payload = data.toString('base64');
+  debugLog(`Write bytes (${payload.length}) from session ${sessionId} on remote server.`)
   return fetch(`${remoteTunnelServerUrl}/sessions/${sessionId}`, {
     method: 'PUT',
     agent,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain',
       'Target-Host': targetHost,
       'Target-Port': targetPort,
       'Cookie': cookie
     },
-    body: JSON.stringify(payload)
+    body: payload
   });
 }
 
@@ -66,9 +66,9 @@ function readFromServer(sessionId) {
       'Target-Port': targetPort,
       'Cookie': cookie
     },
-  }).then(r => r.json()).then(r => {
-    if (r.data && r.data !== '') {
-      const data = Buffer.from(r.data, 'base64');
+  }).then(r => r.text()).then(r => {
+    if (r && r !== '') {
+      const data = Buffer.from(r, 'base64');
       if (data.length > 0) {
         debugLog(`Read bytes (${data.length}) from session ${sessionId} on remote server.`);
         return data;

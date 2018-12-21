@@ -7,7 +7,7 @@ const http = require('http');
 const https = require('https');
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json(), bodyParser.text());
 
 const options = require('minimist')(process.argv.slice(2));
 const debug = options.debug || false;
@@ -114,7 +114,7 @@ function _destroySession(sessionId) {
 
 function writeToSession(req, res) {
   const sessionId = req.params.id;
-  const data = req.body.data;
+  const data = req.body;
   _sendToSession(sessionId, data);
   res.send({ done: true });
 }
@@ -143,7 +143,7 @@ function readLastResponseFromSession(req, res) {
       if (data && !sent) {
         const buffer = data.toString('base64')
         debugLog(`Reading ${buffer.length} bytes from session ${sessionId}`)
-        res.send({ data: buffer });
+        res.status(200).type('text').send(buffer);
         session.data = null;
         sent = true;
       } else {
