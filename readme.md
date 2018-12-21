@@ -1,6 +1,9 @@
 # node-httptunnel
 
-This is a poc of a httptunnel like tool written in node js. It's a didirectional data stream tunnelled in standard HTTP requests (GET/PUT/POST/DELETE).
+node-httptunnel a didirectional data stream tunnelled in standard HTTP requests (GET/PUT/POST/DELETE) written in node js.
+
+**This is a proof of concept, use it at your own risks**
+
 It supports mTLS between client and server or client -> reverse-proxy / reverse-proxy -> server. Useful to use non HTTP protocols (like ssh) through an HTTP reverse proxy (like otoroshi).
 
 ## Install dependencies
